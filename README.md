@@ -62,6 +62,7 @@ npm test
 
 O projeto segue uma arquitetura modular, dividida em camadas para facilitar a manutenção e escalabilidade:
 
+```
 /src
 │── /config # Configurações do banco, cache, mensageria
 │── /controllers # Controladores da API
@@ -71,3 +72,4 @@ O projeto segue uma arquitetura modular, dividida em camadas para facilitar a ma
 │── /queues # Produtor e consumidor de mensagens (RabbitMQ)
 │── /tests # Testes unitários e de integração
 │── server.ts # Inicialização do servidor Express
+```
