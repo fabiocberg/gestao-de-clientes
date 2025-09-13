@@ -1,26 +1,66 @@
-# API REST - Gestão de Clientes
+# Gestão de Clientes API
 
-Este projeto é uma **API RESTful** desenvolvida em **Node.js com TypeScript**, utilizando **MongoDB, Redis e RabbitMQ** para armazenar, cachear e processar eventos de clientes de forma assíncrona.
+API **RESTful** para gestão de clientes, construída em **Node.js + TypeScript**.  
+Utiliza **MongoDB** para armazenamento, **Redis** para cache e **RabbitMQ** para mensageria de eventos assíncronos.  
 
----
-
-## Tecnologias Utilizadas
-
--   **Node.js** + **TypeScript**
--   **Express.js** (Framework para API REST)
--   **Mongoose** (ODM para MongoDB)
--   **Redis** (Cache de consultas)
--   **RabbitMQ** (Mensageria para eventos assíncronos)
--   **Docker + Docker Compose** (Ambiente isolado)
--   **Jest + Supertest** (Testes unitários e de integração)
+O projeto segue arquitetura modular e é totalmente **containerizado com Docker Compose**.
 
 ---
 
-## Como Rodar a Aplicação
+## 🚀 Funcionalidades
 
-### Criar um arquivo .env e configurar as variáveis (se não estiver criado):
+- CRUD completo de clientes (criar, listar, atualizar, remover).  
+- Cache de consultas com Redis.  
+- Processamento assíncrono de eventos com RabbitMQ.  
+- Arquitetura escalável e desacoplada.  
+- Testes unitários e de integração com Jest + Supertest.  
+
+---
+
+## 🛠️ Arquitetura
 
 ```
+gestao-de-clientes/
+│── src/
+│   ├── config/           # Configurações (Redis, Mongo, etc.)
+│   ├── controllers/      # Controladores da API
+│   ├── models/           # Modelos Mongoose (Customer)
+│   ├── repositories/     # Repositórios (base + customer)
+│   ├── routes/v1/        # Definição das rotas da API
+│   ├── queues/           # Produtor/Consumidor RabbitMQ
+│   └── server.ts         # Inicialização do servidor Express
+│
+│── docker-compose.yml    # Orquestração com MongoDB, Redis, RabbitMQ e API
+│── Dockerfile            # Build da aplicação
+│── .env                  # Variáveis de ambiente
+└── README.md
+```
+
+---
+
+## 📦 Tecnologias Utilizadas
+
+- **Node.js 18+**  
+- **TypeScript**  
+- **Express.js** (API REST)  
+- **Mongoose** (ODM para MongoDB)  
+- **Redis** (cache de consultas)  
+- **RabbitMQ** (mensageria assíncrona)  
+- **Docker + Docker Compose** (ambiente isolado)  
+- **Jest + Supertest** (testes unitários e de integração)  
+
+---
+
+## ▶️ Como Rodar a Aplicação
+
+### 1. Pré-requisitos
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.  
+- (Opcional) Node.js 18+ e npm instalados (caso não use Docker).  
+
+### 2. Configurar variáveis de ambiente
+Edite o arquivo `.env` (ou crie um novo se não existir) com os valores:
+
+```env
 MONGO_URI=mongodb://admin:admin123@mongo:27017/
 PORT=3000
 REDIS_HOST=redis
@@ -29,47 +69,39 @@ REDIS_EXPIRES_IN=300
 RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
 ```
 
-### 1. Pré-requisitos
-
--   Ter **Docker** e **Docker Compose** instalados.
--   Ter **Node.js (versão 18+)** e **npm** instalados (caso não use Docker).
-
-### 2. Rodar com Docker (Recomendado)
-
-```sh
+### 3. Rodar com Docker (recomendado)
+Na raiz do projeto:
+```bash
 docker-compose up --build -d
 ```
 
-### Isso iniciará:
+Isso iniciará:
+- API na porta **3000** → [http://localhost:3000](http://localhost:3000)  
+- MongoDB na porta **27017**  
+- Redis na porta **6379**  
+- RabbitMQ na porta **5672**  
+- Painel RabbitMQ em [http://localhost:15672](http://localhost:15672) (user: guest / pass: guest)  
 
--   Aplicação na porta 3000 - http://localhost:3000
--   MongoDB na porta 27017
--   Redis na porta 6379
--   RabbitMQ na porta 5672
--   Painel do RabbitMQ: http://localhost:15672 (guest/guest)
+### 4. Rodar sem Docker (alternativa)
+```bash
+npm install
+npm run dev
+```
 
 ---
 
-## Como Rodar os Testes
+## 🧪 Testes
 
-```sh
+Rodar todos os testes unitários e de integração:
+```bash
 npm test
 ```
 
 ---
 
-## Arquitetura do Projeto
+## 📌 Próximos Passos
 
-O projeto segue uma arquitetura modular, dividida em camadas para facilitar a manutenção e escalabilidade:
-
-```
-/src
-│── /config # Configurações do banco, cache, mensageria
-│── /controllers # Controladores da API
-│── /models # Modelos do banco de dados (Mongoose)
-│── /repositories # Camada de acesso ao banco de dados (CRUD)
-│── /routes # Definição das rotas da API
-│── /queues # Produtor e consumidor de mensagens (RabbitMQ)
-│── /tests # Testes unitários e de integração
-│── server.ts # Inicialização do servidor Express
-```
+- Adicionar autenticação/autorização (JWT).  
+- Melhorar cobertura de testes.  
+- Deploy em nuvem (Heroku, Render, AWS, etc.).  
+- Monitoramento e observabilidade (ex: Prometheus + Grafana).  
